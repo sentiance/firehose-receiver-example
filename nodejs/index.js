@@ -36,7 +36,7 @@ app.post(
     (req, res) => {
 
         console.log('Received webhook message')
-        console.log(req.body)
+        _doSomething(req.body)
         res.status(200).end()
     }
 )
@@ -52,6 +52,16 @@ app.post(
         res.status(200).end()
     }
 )
+
+function _doSomething(events) {
+
+    // Iterating over the envelope to get at the events.
+    for (const event of events.data) {
+
+        console.log(`Received event of type ${event.meta.message_type} at ${event.meta.message_timestamp}`)
+        console.log(event.data)
+    }
+}
 
 server.listen(app.get('port'), function() {
     console.log(`Server listening on ${app.get('port')}`)
